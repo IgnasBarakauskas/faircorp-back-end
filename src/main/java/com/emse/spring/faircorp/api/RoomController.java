@@ -1,5 +1,6 @@
 package com.emse.spring.faircorp.api;
 
+import com.emse.spring.faircorp.dao.BuildingDao;
 import com.emse.spring.faircorp.dao.HeaterDao;
 import com.emse.spring.faircorp.dao.RoomDao;
 import com.emse.spring.faircorp.dao.WindowDao;
@@ -20,9 +21,11 @@ import java.util.stream.Collectors;
 @Transactional
 public class RoomController {
     private final RoomDao roomDao;
+    private final BuildingDao buildingDao;
 
-    public RoomController(RoomDao roomDao) { // (4)
+    public RoomController(RoomDao roomDao, BuildingDao buildingDao) { // (4)
         this.roomDao = roomDao;
+        this.buildingDao = buildingDao;
     }
 
     ///api/rooms (GET) send room list
@@ -42,11 +45,12 @@ public class RoomController {
     }
 
     ///api/rooms (POST) add a room
-    public @PostMapping
-    RoomDTO create(@RequestBody RoomDTO dto) {
+    @PostMapping
+    public RoomDTO create(@RequestBody RoomDTO dto) {
+        Building building = buildingDao.getReferenceById(dto.getBuildingId());
         Room room = null;
         if (dto.getId() == null) {
-            room = roomDao.save(new Room(dto.getFloor(), dto.getName(), dto.getCurrentTemperature(), dto.getTargetTemperature()));
+            room = roomDao.save(new Room(dto.getFloor(), dto.getName(), dto.getCurrentTemperature(), dto.getTargetTemperature(), building));
         } else {
             room = roomDao.getReferenceById(dto.getId());
         }
@@ -64,13 +68,14 @@ public class RoomController {
         }
         return result;
     }
+
     @PutMapping(path = "/{id}/switch-heater")
     public List<HeaterDTO> switchHeater(@PathVariable Long id) {
         Room room = roomDao.findById(id).orElseThrow(IllegalArgumentException::new);
         Set<Heater> heaters = room.getHeaters();
         List<HeaterDTO> result = new ArrayList<>();
         for (Heater heater : heaters) {
-            heater.setHeaterStatus(heater.getHeaterStatus() == HeaterStatus.ON ? HeaterStatus.OFF: HeaterStatus.ON);
+            heater.setHeaterStatus(heater.getHeaterStatus() == HeaterStatus.ON ? HeaterStatus.OFF : HeaterStatus.ON);
             result.add(new HeaterDTO(heater));
         }
         return result;

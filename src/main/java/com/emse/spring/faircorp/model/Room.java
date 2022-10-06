@@ -19,12 +19,14 @@ public class Room {
     private Set<Heater> heaters;
     @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Window> windows;
+    @ManyToOne
+    private Building building;
 
     public Room() {
 
     }
 
-    public Room(Integer floor, String name,Set<Window> windows, Set<Heater> heaters) {
+    public Room(Integer floor, String name, Set<Window> windows, Set<Heater> heaters) {
         this.floor = floor;
         this.name = name;
         this.windows = windows;
@@ -39,11 +41,13 @@ public class Room {
         this.windows = windows;
         this.heaters = heaters;
     }
-    public Room(Integer floor, String name, Double currentTemperature, Double targetTemperature) {
+
+    public Room(Integer floor, String name, Double currentTemperature, Double targetTemperature, Building building) {
         this.floor = floor;
         this.name = name;
         this.currentTemperature = currentTemperature;
         this.targetTemperature = targetTemperature;
+        this.building = building;
     }
 
     public Long getId() {
@@ -100,5 +104,13 @@ public class Room {
 
     public void setWindows(Set<Window> windows) {
         this.windows = windows;
+    }
+
+    public Building getBuilding() {
+        return this.building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 }
