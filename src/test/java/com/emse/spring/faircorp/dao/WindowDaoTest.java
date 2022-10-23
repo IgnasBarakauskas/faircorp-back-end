@@ -47,4 +47,5 @@ class WindowDaoTest {
         Assertions.assertThat(result).isEmpty();
 
     }
+
 }

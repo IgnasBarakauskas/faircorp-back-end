@@ -30,25 +30,35 @@ public class SpringSecurityConfig {
         );
         return manager;
     }
-
     @Bean
     @Order(1) // (1)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                .antMatcher("/login") // (2)
+                .authorizeRequests(authorize -> authorize.anyRequest().permitAll()) // (3)
+                .formLogin(withDefaults())
+                .httpBasic(withDefaults())
+                .build();
+    }
+    @Bean
+    @Order(2) // (1)
+    public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
+        return http
                 .antMatcher("/api/**") // (2)
+                .authorizeRequests(authorize -> authorize.anyRequest().hasAnyRole("ADMIN","USER")) // (3)
+                .formLogin(withDefaults())
+                .httpBasic(withDefaults())
+                .build();
+    }
+    @Bean
+    @Order(3) // (1)
+    public SecurityFilterChain filterChain3(HttpSecurity http) throws Exception {
+        return http
+                .antMatcher("/api/users/**") // (2)
                 .authorizeRequests(authorize -> authorize.anyRequest().hasRole("ADMIN")) // (3)
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults())
                 .build();
     }
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests(authorize -> authorize
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin(withDefaults())
-//                .httpBasic(withDefaults());
-//        return http.build();
-//    }
+
 }

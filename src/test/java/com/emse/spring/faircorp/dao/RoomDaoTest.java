@@ -32,4 +32,5 @@ class RoomDaoTest {
         List<Room> result = roomDao.findRoomByName("NOTARoom1");
         Assertions.assertThat(result).isEmpty();
     }
+
 }
