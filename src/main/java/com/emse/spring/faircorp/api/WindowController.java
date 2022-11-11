@@ -37,7 +37,7 @@ public class WindowController {
     @PutMapping(path = "/{id}/switch")
     public WindowDTO switchStatus(@PathVariable Long id) {
         Window window = windowDao.findById(id).orElseThrow(IllegalArgumentException::new);
-        window.setWindowStatus(window.getWindowStatus() == WindowStatus.OPEN ? WindowStatus.CLOSED: WindowStatus.OPEN);
+        window.setWindowStatus(window.getWindowStatus() == WindowStatus.OPEN ? WindowStatus.CLOSED : WindowStatus.OPEN);
         return new WindowDTO(window);
     }
 
@@ -48,9 +48,8 @@ public class WindowController {
         Window window = null;
         // On creation id is not defined
         if (dto.getId() == null) {
-            window = windowDao.save(new Window( dto.getName(), dto.getWindowStatus(), room));
-        }
-        else {
+            window = windowDao.save(new Window(dto.getName(), dto.getWindowStatus(), room));
+        } else {
             window = windowDao.getReferenceById(dto.getId());  // (9)
             window.setWindowStatus(dto.getWindowStatus());
         }

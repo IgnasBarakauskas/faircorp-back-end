@@ -47,6 +47,7 @@ public class SpringSecurityConfig {
                 .antMatcher("/api/**") // (2)
                 .authorizeRequests(authorize -> authorize.anyRequest().hasAnyRole("ADMIN","USER")) // (3)
                 .formLogin(withDefaults())
+                .csrf().disable()
                 .httpBasic(withDefaults())
                 .build();
     }

@@ -20,12 +20,7 @@ public class Building {
 
     public Building() {
     }
-
-    public Building(String name, Integer amountOfFloors, Set<Room> rooms) {
-        this.name = name;
-        this.amountOfFloors = amountOfFloors;
-        this.rooms = rooms;
-    }
+    
 
     public Building(String name, Integer amountOfFloors) {
         this.name = name;

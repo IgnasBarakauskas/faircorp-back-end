@@ -1,8 +1,6 @@
 package com.emse.spring.faircorp.dao;
 
-import com.emse.spring.faircorp.model.Room;
-import com.emse.spring.faircorp.model.Window;
-import com.emse.spring.faircorp.model.WindowStatus;
+import com.emse.spring.faircorp.model.*;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,19 +22,24 @@ class WindowDaoTest {
     @Test
     public void shouldFindAWindow() {
         Window window = windowDao.getReferenceById(-10L);
+        Assertions.assertThat(window.getId()).isEqualTo(-10L);
         Assertions.assertThat(window.getName()).isEqualTo("Window 1");
+        Assertions.assertThat(window.getRoom().getId()).isEqualTo(-10L);
         Assertions.assertThat(window.getWindowStatus()).isEqualTo(WindowStatus.CLOSED);
     }
+
     @Test
     public void shouldNotFindRoomOpenWindows() {
         List<Window> result = windowDao.findRoomOpenWindows(-10L);
         Assertions.assertThat(result).isEmpty();
     }
+
     @Test
     public void shouldFindRoomOpenWindows() {
         List<Window> result = windowDao.findRoomOpenWindows(-9L);
         Assertions.assertThat(result).isNotEmpty();
     }
+
     @Test
     public void shouldDeleteWindowsInRoom() {
         Room room = roomDao.getReferenceById(-10L);
@@ -48,4 +51,16 @@ class WindowDaoTest {
 
     }
 
+    @Test
+    public void ShouldCreateWindow() {
+        Room room = roomDao.getReferenceById(-10l);
+        Window newWindow = new Window();
+        newWindow.setName("Test");
+        newWindow.setRoom(room);
+        newWindow.setWindowStatus(WindowStatus.OPEN);
+        Window window = windowDao.save(newWindow);
+        Assertions.assertThat(window.getName()).isEqualTo(newWindow.getName());
+        Assertions.assertThat(window.getRoom()).isEqualTo(newWindow.getRoom());
+        Assertions.assertThat(window.getWindowStatus()).isEqualTo(newWindow.getWindowStatus());
+    }
 }
