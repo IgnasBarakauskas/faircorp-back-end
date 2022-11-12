@@ -1,12 +1,16 @@
 package com.emse.spring.faircorp.api;
 
 
+import com.emse.spring.faircorp.dao.RoomDao;
+import com.emse.spring.faircorp.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Set;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -19,7 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RoomControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
+    @Autowired
+    private RoomDao roomDao;
 
     @Test
     @WithMockUser(username = "user", roles = "USER")
@@ -68,17 +73,25 @@ public class RoomControllerTest {
     @Test
     @WithMockUser(username = "user", roles = "USER")
     void shouldSwitchHeatersInRoom() throws Exception {
-        mockMvc.perform(put("/api/rooms/-9/switch-heater").accept(APPLICATION_JSON))
+        Room room = roomDao.findById(-10L).orElseThrow(IllegalArgumentException::new);
+        Set<Heater> heatersSet = room.getHeaters();
+        Heater[] heaters = heatersSet.toArray(new Heater[heatersSet.size()]);
+        mockMvc.perform(put("/api/rooms/-10/switch-heater").accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(APPLICATION_JSON));
+                .andExpect(jsonPath("[0].heaterStatus").value(heaters[0].getHeaterStatus() == HeaterStatus.ON ? "OFF" : "ON"))
+                .andExpect(jsonPath("[1].heaterStatus").value(heaters[1].getHeaterStatus() == HeaterStatus.ON ? "OFF" : "ON"));
     }
 
     @Test
     @WithMockUser(username = "user", roles = "USER")
     void shouldSwitchWindowsInRoom() throws Exception {
-        mockMvc.perform(put("/api/rooms/-9/switch-window").accept(APPLICATION_JSON))
+        Room room = roomDao.findById(-10L).orElseThrow(IllegalArgumentException::new);
+        Set<Window> windowsSet = room.getWindows();
+        Window[] windows = windowsSet.toArray(new Window[windowsSet.size()]);
+        mockMvc.perform(put("/api/rooms/-10/switch-window").accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(APPLICATION_JSON));
+                .andExpect(jsonPath("[0].windowStatus").value(windows[0].getWindowStatus() == WindowStatus.OPEN ? "CLOSED" : "OPEN"))
+                .andExpect(jsonPath("[1].windowStatus").value(windows[1].getWindowStatus() == WindowStatus.OPEN ? "CLOSED" : "OPEN"));
     }
 
     @Test
