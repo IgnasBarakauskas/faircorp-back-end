@@ -1,12 +1,14 @@
 package com.emse.spring.faircorp.dto;
 
 import com.emse.spring.faircorp.model.Building;
+import com.emse.spring.faircorp.model.BuildingStatus;
 import com.emse.spring.faircorp.model.Heater;
 
 public class BuildingDTO {
     private Long id;
     private String name;
     private Integer amountOfFloors;
+    private BuildingStatus buildingStatus;
 
     public BuildingDTO() {
     }
@@ -15,6 +17,7 @@ public class BuildingDTO {
         this.id = building.getId();
         this.name = building.getName();
         this.amountOfFloors = building.getAmountOfFloors();
+        this.buildingStatus = building.getBuildingStatus();
     }
 
     public Long getId() {
@@ -39,5 +42,13 @@ public class BuildingDTO {
 
     public void setAmountOfFloors(Integer amountOfFloors) {
         this.amountOfFloors = amountOfFloors;
+    }
+
+    public BuildingStatus getBuildingStatus() {
+        return this.buildingStatus;
+    }
+
+    public void setBuildingStatus(BuildingStatus status) {
+        this.buildingStatus = status;
     }
 }

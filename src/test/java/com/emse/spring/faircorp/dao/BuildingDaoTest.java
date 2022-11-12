@@ -1,6 +1,7 @@
 package com.emse.spring.faircorp.dao;
 
 import com.emse.spring.faircorp.model.Building;
+import com.emse.spring.faircorp.model.BuildingStatus;
 import com.emse.spring.faircorp.model.Heater;
 import com.emse.spring.faircorp.model.HeaterStatus;
 import org.assertj.core.api.Assertions;
@@ -26,6 +27,7 @@ public class BuildingDaoTest {
             Assertions.assertThat(building.getName()).isEqualTo("Espace Fauriel");
             Assertions.assertThat(building.getAmountOfFloors()).isEqualTo(5);
             Assertions.assertThat(building.getRooms().size()).isEqualTo(3);
+            Assertions.assertThat(building.getBuildingStatus()).isEqualTo(BuildingStatus.LOCKED);
         }
     }
 
@@ -41,8 +43,10 @@ public class BuildingDaoTest {
         Building newBuilding = new Building();
         newBuilding.setName("Test");
         newBuilding.setAmountOfFloors(3);
+        newBuilding.setBuildingStatus(BuildingStatus.LOCKED);
         Building building = buildingDao.save(newBuilding);
         Assertions.assertThat(newBuilding.getName()).isEqualTo(building.getName());
         Assertions.assertThat(newBuilding.getAmountOfFloors()).isEqualTo(building.getAmountOfFloors());
+        Assertions.assertThat(newBuilding.getBuildingStatus()).isEqualTo(building.getBuildingStatus());
     }
 }

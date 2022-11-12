@@ -1,5 +1,5 @@
-insert into BUILDING(id, amount_of_floors, name ) values(-10, 5, 'Espace Fauriel');
-insert into BUILDING(id, amount_of_floors, name ) values(-9, 3, 'Personal House');
+insert into BUILDING(id, amount_of_floors, name, building_status ) values(-10, 5, 'Espace Fauriel', 'LOCKED');
+insert into BUILDING(id, amount_of_floors, name, building_status ) values(-9, 3, 'Personal House', 'UNLOCKED');
 
 insert into ROOM(id, name, floor, current_temperature, target_temperature, building_id) values(-10, 'Room1', 1, 22.3, 20.0,-10);
 insert into ROOM(id, name, floor, building_id) values(-9, 'Room2', 1, -10);

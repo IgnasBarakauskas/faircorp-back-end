@@ -3,9 +3,9 @@ package com.emse.spring.faircorp.api;
 import com.emse.spring.faircorp.dao.BuildingDao;
 import com.emse.spring.faircorp.dao.RoomDao;
 import com.emse.spring.faircorp.dto.BuildingDTO;
+import com.emse.spring.faircorp.dto.HeaterDTO;
 import com.emse.spring.faircorp.dto.RoomDTO;
-import com.emse.spring.faircorp.model.Building;
-import com.emse.spring.faircorp.model.Room;
+import com.emse.spring.faircorp.model.*;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,14 +32,22 @@ public class BuildingController {
     public BuildingDTO findById(@PathVariable Long id) {
         return buildingDao.findById(id).map(BuildingDTO::new).orElse(null); // (7)
     }
+
     @PostMapping
-     public BuildingDTO create(@RequestBody BuildingDTO dto) {
+    public BuildingDTO create(@RequestBody BuildingDTO dto) {
         Building building = null;
         if (dto.getId() == null) {
-            building = buildingDao.save(new Building(dto.getName(), dto.getAmountOfFloors()));
+            building = buildingDao.save(new Building(dto.getName(), dto.getAmountOfFloors(), dto.getBuildingStatus()));
         } else {
             building = buildingDao.getReferenceById(dto.getId());
         }
+        return new BuildingDTO(building);
+    }
+
+    @PutMapping(path = "/{id}/switch")
+    public BuildingDTO switchStatus(@PathVariable Long id) {
+        Building building = buildingDao.findById(id).orElseThrow(IllegalArgumentException::new);
+        building.setBuildingStatus(building.getBuildingStatus() == BuildingStatus.LOCKED ? BuildingStatus.UNLOCKED : BuildingStatus.LOCKED);
         return new BuildingDTO(building);
     }
 

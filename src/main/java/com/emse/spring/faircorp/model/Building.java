@@ -17,14 +17,17 @@ public class Building {
     private Integer amountOfFloors;
     @OneToMany(mappedBy = "building", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Room> rooms;
+    @Enumerated(EnumType.STRING)
+    private BuildingStatus buildingStatus;
 
     public Building() {
     }
-    
 
-    public Building(String name, Integer amountOfFloors) {
+
+    public Building(String name, Integer amountOfFloors, BuildingStatus status) {
         this.name = name;
         this.amountOfFloors = amountOfFloors;
+        this.buildingStatus = status;
     }
 
     public Long getId() {
@@ -55,9 +58,15 @@ public class Building {
         return this.rooms;
     }
 
-    ;
-
     public void setRooms(Set<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    public BuildingStatus getBuildingStatus() {
+        return this.buildingStatus;
+    }
+
+    public void setBuildingStatus(BuildingStatus status) {
+        this.buildingStatus = status;
     }
 }
