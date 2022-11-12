@@ -52,6 +52,6 @@
 
 ## Related URL's
 
-### API can be tested at [Swagger](https://faircorp-ignas-barakauskas.cleverapps.io/swagger-ui/index.html#/)
+### API can be tested at: [Swagger](https://faircorp-ignas-barakauskas.cleverapps.io/swagger-ui/index.html#/)
 
-### Main Website of back-end [faircorp](https://faircorp-ignas-barakauskas.cleverapps.io)
+### Back-end website can be found at: [faircorp](https://faircorp-ignas-barakauskas.cleverapps.io)
