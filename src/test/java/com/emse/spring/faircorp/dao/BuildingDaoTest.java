@@ -25,14 +25,14 @@ public class BuildingDaoTest {
             Assertions.assertThat(building.getId()).isEqualTo(-10L);
             Assertions.assertThat(building.getName()).isEqualTo("Espace Fauriel");
             Assertions.assertThat(building.getAmountOfFloors()).isEqualTo(5);
-            Assertions.assertThat(building.getRooms().size()).isEqualTo(2);
+            Assertions.assertThat(building.getRooms().size()).isEqualTo(3);
         }
     }
 
     @Test
     public void shouldFindAllBuilding() {
         List<Building> buildings = buildingDao.findAll();
-        Assertions.assertThat(buildings.size()).isEqualTo(1);
+        Assertions.assertThat(buildings.size()).isEqualTo(2);
 
     }
 
