@@ -1,12 +1,6 @@
 package com.emse.spring.faircorp.dto;
 
-import com.emse.spring.faircorp.model.Heater;
 import com.emse.spring.faircorp.model.Room;
-import com.emse.spring.faircorp.model.Window;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class RoomDTO {
     private Long id;

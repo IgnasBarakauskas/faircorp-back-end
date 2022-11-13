@@ -1,12 +1,8 @@
 package com.emse.spring.faircorp.api;
 
 import com.emse.spring.faircorp.dao.BuildingDao;
-import com.emse.spring.faircorp.dao.RoomDao;
 import com.emse.spring.faircorp.dto.BuildingDTO;
-import com.emse.spring.faircorp.dto.HeaterDTO;
-import com.emse.spring.faircorp.dto.RoomDTO;
 import com.emse.spring.faircorp.model.*;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -19,7 +15,7 @@ import java.util.stream.Collectors;
 public class BuildingController {
     private final BuildingDao buildingDao;
 
-    public BuildingController(BuildingDao buildingDao) { // (4)
+    public BuildingController(BuildingDao buildingDao) {
         this.buildingDao = buildingDao;
     }
 
@@ -30,7 +26,7 @@ public class BuildingController {
 
     @GetMapping(path = "/{id}")
     public BuildingDTO findById(@PathVariable Long id) {
-        return buildingDao.findById(id).map(BuildingDTO::new).orElse(null); // (7)
+        return buildingDao.findById(id).map(BuildingDTO::new).orElse(null);
     }
 
     @PostMapping

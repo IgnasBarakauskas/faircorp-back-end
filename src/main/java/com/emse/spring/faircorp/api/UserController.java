@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 @RequestMapping("/api/users")
 @Transactional
 public class UserController {
-    @Secured("ROLE_ADMIN") // (1)
+    @Secured("ROLE_ADMIN")
     @GetMapping
     public ResponseEntity<String> findAll(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(userDetails.getUsername());

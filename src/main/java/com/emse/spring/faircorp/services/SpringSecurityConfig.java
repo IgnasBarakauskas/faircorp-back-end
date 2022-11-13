@@ -10,7 +10,9 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
 import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 public class SpringSecurityConfig {
 
@@ -30,33 +32,39 @@ public class SpringSecurityConfig {
         );
         return manager;
     }
+
+    // Let everyone access this api
     @Bean
-    @Order(1) // (1)
+    @Order(1)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .antMatcher("/login") // (2)
-                .authorizeRequests(authorize -> authorize.anyRequest().permitAll()) // (3)
+                .antMatcher("/login")
+                .authorizeRequests(authorize -> authorize.anyRequest().permitAll())
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults())
                 .build();
     }
+
+    // Secure api/** (all apis under /api) so that only logged-in user with any role could access it
     @Bean
-    @Order(2) // (1)
+    @Order(2)
     public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
         return http
-                .antMatcher("/api/**") // (2)
-                .authorizeRequests(authorize -> authorize.anyRequest().hasAnyRole("ADMIN","USER")) // (3)
+                .antMatcher("/api/**")
+                .authorizeRequests(authorize -> authorize.anyRequest().hasAnyRole("ADMIN", "USER"))
                 .formLogin(withDefaults())
                 .csrf().disable()
                 .httpBasic(withDefaults())
                 .build();
     }
+
+    // Secure /api/users so that only admin could access it
     @Bean
-    @Order(3) // (1)
+    @Order(3)
     public SecurityFilterChain filterChain3(HttpSecurity http) throws Exception {
         return http
-                .antMatcher("/api/users/**") // (2)
-                .authorizeRequests(authorize -> authorize.anyRequest().hasRole("ADMIN")) // (3)
+                .antMatcher("/api/users/**")
+                .authorizeRequests(authorize -> authorize.anyRequest().hasRole("ADMIN"))
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults())
                 .build();

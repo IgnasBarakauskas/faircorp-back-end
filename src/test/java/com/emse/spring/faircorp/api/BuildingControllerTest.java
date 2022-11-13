@@ -3,8 +3,6 @@ package com.emse.spring.faircorp.api;
 import com.emse.spring.faircorp.dao.BuildingDao;
 import com.emse.spring.faircorp.model.Building;
 import com.emse.spring.faircorp.model.BuildingStatus;
-import com.emse.spring.faircorp.model.Heater;
-import com.emse.spring.faircorp.model.HeaterStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

@@ -1,9 +1,7 @@
 package com.emse.spring.faircorp.api;
 
 import com.emse.spring.faircorp.dao.BuildingDao;
-import com.emse.spring.faircorp.dao.HeaterDao;
 import com.emse.spring.faircorp.dao.RoomDao;
-import com.emse.spring.faircorp.dao.WindowDao;
 import com.emse.spring.faircorp.dto.HeaterDTO;
 import com.emse.spring.faircorp.dto.RoomDTO;
 import com.emse.spring.faircorp.dto.WindowDTO;
@@ -23,12 +21,11 @@ public class RoomController {
     private final RoomDao roomDao;
     private final BuildingDao buildingDao;
 
-    public RoomController(RoomDao roomDao, BuildingDao buildingDao) { // (4)
+    public RoomController(RoomDao roomDao, BuildingDao buildingDao) {
         this.roomDao = roomDao;
         this.buildingDao = buildingDao;
     }
 
-    ///api/rooms (GET) send room list
     @GetMapping
     public List<RoomDTO> findAll() {
         return roomDao.findAll().stream().map(RoomDTO::new).collect(Collectors.toList());
@@ -36,7 +33,7 @@ public class RoomController {
 
     @GetMapping(path = "/{id}")
     public RoomDTO findById(@PathVariable Long id) {
-        return roomDao.findById(id).map(RoomDTO::new).orElse(null); // (7)
+        return roomDao.findById(id).map(RoomDTO::new).orElse(null);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -44,7 +41,6 @@ public class RoomController {
         roomDao.deleteById(id);
     }
 
-    ///api/rooms (POST) add a room
     @PostMapping
     public RoomDTO create(@RequestBody RoomDTO dto) {
         Building building = buildingDao.getReferenceById(dto.getBuildingId());

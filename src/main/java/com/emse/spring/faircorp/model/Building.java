@@ -1,6 +1,5 @@
 package com.emse.spring.faircorp.model;
 
-import com.emse.spring.faircorp.dto.BuildingDTO;
 
 import javax.persistence.*;
 import java.util.Set;
